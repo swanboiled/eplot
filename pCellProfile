@@ -1,8 +1,7 @@
 #!/usr/bin/python
-import numpy as np
-import sys
-import matplotlib.pyplot as plt
-     
+import numpy as np 
+import sys 
+import matplotlib.pyplot as plt 
 def getFromFile(f):
     data=np.loadtxt(f)
     d=[]
@@ -45,7 +44,7 @@ for pdata in data:
     lines.append(pCycle(pd,labels[i],color_sequence[i],1))
     n+=1
     i=int(n/2)
-plt.ylim(1.5,4.2)
+plt.ylim(-0.5,3)
 plt.xlim(0,1.1*np.amax(np.loadtxt(f)[:,1]))
 plt.ylabel('Voltage (V)')
 plt.xlabel('Capacity (mAh/g)')
