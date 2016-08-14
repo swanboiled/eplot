@@ -2,7 +2,7 @@
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
+     
 def getFromFile(f):
     data=np.loadtxt(f)
     d=[]
@@ -13,11 +13,11 @@ def getFromFile(f):
 	    d.append([])
 	d[n-1].append(l)
     return d 
-def pCycle(ax,d,l,c):
-    line,=ax.plot(d[0],d[2],label =l, color=c,marker='.')
+def pRaman(ax,d,l,c):
+    line,=ax.plot(d[0],d[1],label =l, color=c,ls='-')
     return line
 def pEff(ax,d,l,c):
-    line,=ax.plot(d[0],d[3],label =l, color=c,marker='.')
+    line,=ax.plot(d[0],d[3],label =l, color=c,marker='o')
     return line
 
 def save(a,f):
@@ -47,35 +47,18 @@ ax_c = fig.add_subplot(111)
 
 i=0
 for data in d:
-    pCycle(ax_c,data,labels[i],colors[i])
+    pRaman(ax_c,data,labels[i],colors[i])
     i=i+1
 
 
 
 
-ax_c.set_xlim(0,1.1*np.amax(d[0][0]))
-ax_c.set_ylim(0,400)
-ax_c.set_ylabel('Capacity (mAh/g)')
-ax_c.set_xlabel('Cycles')
-ax_c.grid(True)
-plt.yticks(np.linspace(50,400,8))
+ax_c.set_xlim(800,1.1*np.amax(d[0][0]))
+ax_c.set_ylabel('Intensity')
+ax_c.set_xlabel('Raman shift ($cm^{-1}$)')
+ax_c.legend(loc=1,framealpha=0.4)
 
 
-ax_e = ax_c.twinx()
-
-
-i=0
-for data in d:
-    pEff(ax_e,data,labels[i],colors[i])
-    i=i+1
-
-
-ax_e.legend(loc=4,framealpha=0.4)
-ax_e.set_ylim(80,120)
-plt.yticks(np.linspace(85,120,8))
-ax_e.set_ylabel('Coulombic efficiency (%)')
-
-plt.xlabel('Cycles')
 
 
 plt.savefig(f+'.pdf')

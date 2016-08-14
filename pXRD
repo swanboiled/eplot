@@ -2,7 +2,8 @@
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
-     
+import matplotlib.ticker as ticker
+
 def getFromFile(f):
     data=np.loadtxt(f)
     d=[]
@@ -13,9 +14,13 @@ def getFromFile(f):
 	    d.append([])
 	d[n-1].append(l)
     return d 
-def pCycle(d,l,c,lw):
-    line,=plt.plot(d[1],d[0],label =l, color=c,linestyle='-',linewidth=lw)
+def pXRD(ax,i,d,l,c,p):
+    line,=ax.plot(d[1],vecMinSca(normalize(d[2]),-1*i),label =l, color=c,ls='-')
+    ax.text(55,i+0.4,l,color=c)
+    ax.vlines(p,i,i+1.2,color=c,linestyles='--')
+    ax.text(p-9,i+0.1,'$'+str(p)+'^{\circ}$',color=c)
     return line
+
 def save(a,f):
     d=np.transpose(a)
     f = open(f,'w')
@@ -26,25 +31,50 @@ def save(a,f):
         f.write('\n')
     f.close()
         
+def normalize(v):
+    o=[]
+    m=np.amax(v)
+    for vr in v:
+        o.append(vr/m)
+    return o
+def vecMinSca(v,s):
+    o=[]
+    for ve in v:
+        o.append(ve-s)
+    return o
 
 #Colors
-color_sequence = ['g','b','k','darkviolet','c']
-linestyle=['-','--']
-labels = ('1st', '2nd', '3rd', '4th', '5th')
+colors = ['g','b','k','darkviolet','c']
+labels = ['PHC1000', 'PHC1200', 'PHC1400', 'PHC1600', '5th']
+ps=[21.34,21.64,22.54,22.76]
 # plot
+ 
+d=[] 
+for f in sys.argv[1:]:
+    d.append(np.loadtxt(f).transpose())
 
-f = sys.argv[1]
-data=np.loadtxt(f).transpose()
 
-plt.figure(figsize=(6,5))
-plt.subplot(411)
-plt.plot(data[1],data[2],label =f, color='r',linestyle='-',linewidth=1)
+fig=plt.figure(figsize=(6.5,5),dpi=600)
+ax_c = fig.add_subplot(111)
 
-plt.subplot(412)
 
-plt.plot(data[1],data[2],label =f, color='r',linestyle='-',linewidth=1)
-plt.xlabel('Cycles')
-plt.ylabel('Intensity')
+i=0
+for data in d:
+    pXRD(ax_c,i,data,labels[i],colors[i],ps[i])
+    i=i+1
 
-plt.legend(framealpha=0.4)
+ax_c.vlines(43.72,0,4.2,color='k',linestyles='--')
+ax_c.text(43.72-9,1.8,'$43.72^{\circ}$')
+ 
+
+
+ax_c.set_xlim(5,1.1*np.amax(d[0][1]))
+ax_c.set_ylim(0,4.2)
+ax_c.set_ylabel('Intensity')
+ax_c.set_xlabel('Pos. ($^{\circ}$)')
+ax_c.tick_params(labelleft='off')
+
+
+
+
 plt.savefig(f+'.pdf')
