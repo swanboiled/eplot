@@ -13,7 +13,7 @@ def getFromFile(f):
 	d[n-1].append(l)
     return d 
 def pCycle(d,l,c,lw):
-    line,=plt.plot(d[1],d[0],label =l, color=c,linestyle='-',linewidth=lw)
+    line,=plt.plot(d[1],d[0],label =l, color=c,linestyle='-')
     return line
 def save(a,f):
     d=np.transpose(a)
@@ -27,14 +27,15 @@ def save(a,f):
         
 
 #Colors
-color_sequence = ['g','b','k','darkviolet','c','darkred']
+color_sequence = ['g','b','k','darkviolet','darkviolet','c','darkred']
 linestyle=['-','--']
-labels = ('1st', '2nd', '200th', '400th','800th')
+labels = ('1st', '2nd', '800th', '400th','800th')
 # plot
 
+plt.style.use('z')
 f = sys.argv[1]
 data=getFromFile(f)
-plt.figure(figsize=(6,5))
+plt.figure()
 ls='-'
 i=0
 n=0
@@ -47,7 +48,6 @@ for pdata in data:
 plt.ylim(1.5,4.2)
 plt.xlim(0,1.1*np.amax(np.loadtxt(f)[:,1]))
 plt.ylabel('Voltage (V)')
-plt.xlabel('Capacity (mAh/g)')
-plt.grid(True)
-plt.legend(lines[1::2],labels[:i],loc=7,framealpha=0.4,frameon=None)
+plt.xlabel('Specific capacity ($mAh\cdot g^{-1}$)')
+plt.legend(lines[1::2],labels[:i],loc=7,framealpha=0.4)
 plt.savefig(f+'.pdf')

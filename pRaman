@@ -35,13 +35,13 @@ def save(a,f):
 colors = ['g','b','k','darkviolet','c']
 labels = ['PHC1000', 'PHC1200', 'PHC1400', 'PHC1600', '5th']
 # plot
- 
+plt.style.use('z') 
 d=[] 
 for f in sys.argv[1:]:
     d.append(np.loadtxt(f).transpose())
 
 
-fig=plt.figure(figsize=(6.5,5),dpi=600)
+fig=plt.figure()
 ax_c = fig.add_subplot(111)
 
 
@@ -54,6 +54,11 @@ for data in d:
 
 
 ax_c.set_xlim(800,1.1*np.amax(d[0][0]))
+ax_c.set_ylim(0,15000)
+plt.yticks(np.linspace(3000,15000,5))
+plt.xticks(np.linspace(800,2200,5))
+ax_c.tick_params(labelleft='off')
+
 ax_c.set_ylabel('Intensity')
 ax_c.set_xlabel('Raman shift ($cm^{-1}$)')
 ax_c.legend(loc=1,framealpha=0.4)
@@ -61,4 +66,4 @@ ax_c.legend(loc=1,framealpha=0.4)
 
 
 
-plt.savefig(f+'.pdf')
+plt.savefig('Raman.pdf')

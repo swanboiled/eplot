@@ -31,11 +31,11 @@ def save(a,f):
 #Colors
 color_sequence = ['g','b','k','darkviolet','c','darkred']
 linestyle=['-','--']
-labels = ('1st', '2nd', '100th', '400th','800th')
-plt.style.use('z')
-#mpl.rcParams['font.size']='16'
+labels = ('2C', '6C', '100th', '400th','800th')
 # plot
-
+plt.style.use('z')
+mpl.rcParams['figure.subplot.left'] =0.15
+mpl.rcParams['figure.subplot.right'] =0.95 
 f = sys.argv[1]
 data=getFromFile(f)
 plt.figure()
@@ -48,9 +48,28 @@ for pdata in data:
     lines.append(pCycle(pd,labels[i],color_sequence[i],1))
     n+=1
     i=int(n/2)
-plt.ylim(0,3.0)
-plt.xlim(0,400)
+plt.ylim(-0.5,3.0)
+plt.xlim(0,1.1*np.amax(np.loadtxt(f)[:,1]))
 plt.ylabel('Voltage (V)')
 plt.xlabel('Specific capacity ($mAh\cdot g^{-1}$)')
-plt.legend(lines[1::2],labels[:i],loc=2,framealpha=0.4,frameon=None)
+#plt.grid(True)
+plt.legend(lines[1::2],labels[:i],loc=2,framealpha=0.4)
+
+
+
+sub_axes = plt.axes([0.26, 0.41, 0.4, 0.3])
+i=0
+n=0
+lines=[]
+for pdata in data:
+    pd=np.array(pdata).transpose()
+    sub_axes.plot(pd[1],pd[0],label =labels[n], color=color_sequence[i],linestyle='-')
+    n+=1
+    i=int(n/2)
+plt.ylim(-0.2,0)
+plt.xlim(0,300)
+plt.xticks(np.linspace(0,300,3))
+plt.yticks(np.linspace(-0.2,0,3))
+
+plt.setp(sub_axes)
 plt.savefig(f+'.pdf')
