@@ -6,14 +6,17 @@ def getFromFile(f):
     data=np.loadtxt(f)
     d=[]
     n=0
+    b=1
     for l in data:
-	if l[1]==0:
+	if l[1]==0 and b>0:
        	    n+=1	
 	    d.append([])
 	d[n-1].append(l)
-    return d 
+        b=l[1]
+    return d
 def pCycle(d,l,c,lw):
     line,=plt.plot(d[1],d[0],label =l, color=c,linestyle='-')
+    print len(d[1])
     return line
 def save(a,f):
     d=np.transpose(a)
@@ -24,12 +27,16 @@ def save(a,f):
             f.write('\t')
         f.write('\n')
     f.close()
-        
+def smplist(l,n):
+    o=[]
+    for i in range(0,int(len(l)/n)):
+        o.append(l[i*n])
+    return o
 
 #Colors
 color_sequence = ['g','b','k','darkviolet','darkviolet','c','darkred']
 linestyle=['-','--']
-labels = ('1st', '100th', '200th', '200th','800th')
+labels = ('1st', '5nd', '60th', '120th','800th')
 # plot
 
 plt.style.use('z')
@@ -42,12 +49,13 @@ n=0
 lines=[]
 for pdata in data:
     pd=np.array(pdata).transpose()
+    print len(pd[0])
     lines.append(pCycle(pd,labels[i],color_sequence[i],1))
     n+=1
     i=int(n/2)
-plt.ylim(1.5,4.2)
+plt.ylim(0,4.2)
 plt.xlim(0,1.1*np.amax(np.loadtxt(f)[:,1]))
 plt.ylabel('Voltage (V)')
 plt.xlabel('Specific capacity ($mAh\cdot g^{-1}$)')
-plt.legend(lines[1::2],labels[:i],loc=7,framealpha=0.4)
+plt.legend(lines[1::2],labels[:i],loc=3,framealpha=0.4)
 plt.savefig(f+'.pdf')

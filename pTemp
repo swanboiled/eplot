@@ -23,7 +23,9 @@ def pXRD(ax,i,d,l,c,p,r):
     return line
 
 def save(a,f):
-    d=np.transpose(a)
+#    d=np.transpose(a)
+
+    d=a
     f = open(f,'w')
     for row in d:
         for line in row:
@@ -51,32 +53,10 @@ ps=[21.34,21.64,22.54,22.76]
 R=[1.975,2.013,2.176,2.304]
 # plot
 plt.style.use('z') 
-d=[] 
-for f in sys.argv[1:]:
-    d.append(np.loadtxt(f).transpose())
-
-
-fig=plt.figure()
-ax_c = fig.add_subplot(111)
-
-
-i=0
-for data in d:
-    pXRD(ax_c,i,data,labels[i],colors[i],ps[i],R[i])
-    i=i+1
-
-ax_c.vlines(43.72,0,4.2,color='k',linestyles='--',lw=1)
-ax_c.text(43.72-9,1.8,'$43.72^{\circ}$')
- 
-
-
-ax_c.set_xlim(5,1.1*np.amax(d[0][1]))
-ax_c.set_ylim(0,4.2)
-ax_c.set_ylabel('Intensity')
-ax_c.set_xlabel('$2 \Theta (^{\circ})$')
-ax_c.tick_params(labelleft='off')
-
-
-
-
-plt.savefig(f+'.pdf')
+d=[]
+for f in range(1,48,1):
+    c=np.loadtxt(str(f)+'.ASC').transpose()
+    d.append(c[1])
+    print c[1]
+dn=np.array(d)
+save(dn,'out.txt')

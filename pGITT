@@ -28,8 +28,9 @@ labels = ('2C', '6C', '100th', '400th','800th')
 
 
 # plot
-plt.style.use('z')
-mpl.rcParams['figure.subplot.left'] =0.15
+#plt.style.use('z')
+plt.style.use('ggplot')
+mpl.rcParams['figure.subplot.left'] =0.10
 mpl.rcParams['figure.subplot.right'] =0.95 
 f = sys.argv[1]
 pA=np.loadtxt(f)
@@ -37,37 +38,73 @@ pA=np.loadtxt(f)
 
 pd=np.array(pA).transpose()
 plt.plot(pd[0],pd[1],label ='GITT profile', color='g', linewidth='1')
-plt.xlim(20,70)
-plt.ylim(0,1.1*np.amax(pd[1]))
+plt.xlim(20,np.amax(pd[0]))
+plt.ylim(0,2.5)
 plt.ylabel('Voltage (V)')
 plt.xlabel('Time (h)')
 plt.legend(loc=2,framealpha=0.4)
+
+
+
+
+
+
 
 i=0
 E0=[]
 E1=[]
 E2=[]
-
-while i< len(pA)-1:
-    if pA[i][2]-pA[i+1][2]<-0.02:
+while pA[i][1]>0.0001 and i<len(pA)-1:
+    if pA[i][2]<0 and pA[i+1][2]==0:
         E0.append(pA[i][1])
         E1.append(pA[i+1][1])
-    if pA[i][2]-pA[i+1][2]>0.02:
+    if pA[i][2]==0 and pA[i+1][2]<0:
         E2.append(pA[i][1])
     i=i+1 
 
-print len(E0)
+i=0
+C0=[]
+C1=[]
+C2=[]
+while i<len(pA)-1:
+
+    if pA[i][2]>0 and pA[i+1][2]==0:
+        C0.append(pA[i][1])
+        C1.append(pA[i+1][1])
+    if pA[i][2]==0 and pA[i+1][2]>0:
+        C2.append(pA[i][1])
+    i=i+1 
+
+
+
 d=[]
 v=[]
 i=0
-while i< 19:
-    dv=((E0[i]-E0[i+1])/(E1[i]-E2[i]))*((E0[i]-E0[i+1])/(E1[i]-E2[i]))*(1.368/(1.6*50000))*(1.368/(1.6*50000))*(4/(3.14*60*30))
-#    dv=((E0[i]-E0[i+1])/(E1[i]-E2[i]))*((E0[i]-E0[i+1])/(E1[i]-E2[i]))
+while i< len(E0)-1:
+    dv=((E0[i]-E0[i+1])/(E1[i]-E2[i]))*((E0[i]-E0[i+1])/(E1[i]-E2[i]))*(1.368*0.001/(1.6*50000*1.368*0.001))*(1.368/(1.6*50000))*(4/(3.14*60*30))
     d.append(dv)
     v.append(E2[i])
     i=i+1
-print d,v
-sub_axes = plt.axes([0.45, 0.40, 0.45, 0.25])
+
+
+
+dc=[]
+vc=[]
+i=0
+while i< len(C0)-1:
+    dv=((C0[i]-C0[i+1])/(C1[i]-C2[i]))*((C0[i]-C0[i+1])/(C1[i]-C2[i]))*(1.368*0.001/(1.6*50000*1.368*0.001))*(1.368/(1.6*50000))*(4/(3.14*60*30))
+    dc.append(dv)
+    vc.append(C2[i])
+    i=i+1
+
+
+
+
+
+
+
+
+sub_axes = plt.axes([0.35, 0.55, 0.45, 0.25])
 sub_axes.set_yscale('log')
 
 sub_axes.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
@@ -82,7 +119,33 @@ plt.xlabel('Voltage ($V$)')
 
 
 
+
+
+
+
+
+
+
+
+subc_axes = plt.axes([0.35, 0.20, 0.45, 0.25])
+subc_axes.set_yscale('log')
+
+subc_axes.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
+subc_axes.plot(vc,dc,'b.-',label ='DC',lw=1)
+plt.xticks(np.linspace(0,0.9,10))
+
+#plt.xlim(0,100)
+plt.xlim(0,1*np.amax(v))
+
+plt.ylabel('DC ($cm^2\cdot s^{-1}$)')
+plt.xlabel('Voltage ($V$)')
+
+
+
+
 plt.setp(sub_axes)
+plt.setp(subc_axes)
+
 
 plt.legend(loc=3,framealpha=0.4)
 plt.savefig(f+'.pdf')

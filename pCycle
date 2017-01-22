@@ -54,7 +54,7 @@ for data in d:
 
 
 ax_c.set_xlim(0,1.1*np.amax(d[0][0]))
-ax_c.set_ylim(0,400)
+ax_c.set_ylim(0,100)
 ax_c.set_ylabel('Specific capacity ($mAh\cdot g^{-1}$)')
 ax_c.set_xlabel('Cycle number')
 ax_c.grid(True)

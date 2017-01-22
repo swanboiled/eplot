@@ -42,41 +42,29 @@ plt.style.use('z')
 mpl.rcParams['figure.subplot.left'] =0.15
 mpl.rcParams['figure.subplot.right'] =0.95 
 f = sys.argv[1]
-dA=np.loadtxt(f+'a')
-dP=np.loadtxt(f+'p')
+dA=np.loadtxt('1400p')
+dP=np.loadtxt('1600p')
 
 
-pd=np.array(dA).transpose()
-plt.plot(pd[0],pd[1],label ='Volume adsorbed', color='g',marker=('o'))
-
-
-
-plt.xlim(0,1.1*np.amax(pd[0]))
-#plt.ylim(0,1.1*np.amax(pd[1]))
-plt.ylim(0,1.8*np.amax(pd[1]))
-plt.ylabel('Volume adsorbed ($cm^3\cdot g^{-1}$)')
-plt.xlabel('Relative pressure ($P/P_o$)')
-
-plt.legend(loc=2,framealpha=0.4)
-
-
-
-sub_axes = plt.axes([0.38, 0.5, 0.45, 0.25])
-#sub_axes = plt.axes([0.45, 0.30, 0.45, 0.25])
-sub_axes.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
-sub_axes.set_xscale('log')
+ax=plt.subplot(111)
 pd=np.array(dP).transpose()
-sub_axes.plot(pd[0],pd[1],label ='CSA', color='b',marker=('o'),lw=1,markersize=2)
+po=np.array(dA).transpose()
 
-plt.ylim(0,1.1*np.amax(pd[1]))
-plt.yticks(np.linspace(0,1.1*np.amax(pd[1]),5))
+ax.plot(po[0],po[1],label ='PHC-1400', color='m',marker=('o'))
+ax.plot(pd[0],pd[1],label ='PHC-1600', color='g',marker=('o'))
 
-plt.ylabel('CSA ($cm^2\cdot g^{-1}$)')
+
+
+#ax.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
+ax.set_xscale('log')
+ax.set_yscale('log')
+ax.invert_xaxis()
+
+
+
+plt.ylabel('CSA ($m^2\cdot g^{-1}$)')
 plt.xlabel('Pore width ($\AA$)')
 
 
-
-plt.setp(sub_axes)
-
-plt.legend(loc=2,framealpha=0.4)
-plt.savefig(f+'.pdf')
+plt.legend(loc=6,framealpha=0.4)
+plt.savefig(f+'csa.pdf')

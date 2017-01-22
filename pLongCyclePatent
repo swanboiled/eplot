@@ -14,15 +14,16 @@ def getFromFile(f):
 	    d.append([])
 	d[n-1].append(l)
     return d 
-def pChCap(ax,d,l,c):
-    line,=ax.plot(d[0],d[1],'m.',label =l+'CC')
-    return line
-def pDisCap(ax,d,l,c):
-    line,=ax.plot(d[0],d[2],'g.',label =l+'DC')
-    return line
+
+def pChCap(ax,d,l,c): 
+    line,=ax.plot(d[0],d[1],label =l+'Charge capacity',marker='s',**marker_style) 
+    return line 
+def pDisCap(ax,d,l,c): 
+    line,=ax.plot(d[0],d[2],label =l+'Discharge capacity',marker='o',**marker_style) 
+    return line 
 
 def pEff(ax,d,l,c):
-    line,=ax.plot(d[0],d[3],'k^',label =l+'CE')
+    line,=ax.plot(d[0],d[3],label =l+'Coulombic efficiency',marker='>',**marker_style) 
     return line
 
 def save(a,f):
@@ -35,14 +36,14 @@ def save(a,f):
         f.write('\n')
     f.close()
         
-
+marker_style = dict(linestyle='None',markeredgecolor='k', markevery=25,mew='1',markersize=5,fillstyle='none')
 #Colors
 colors = ['k','b','k','darkviolet','c']
 labels = ['', '', 'PHC1400', 'PHC1600', '5th']
 # plot
 plt.style.use('z') 
-mpl.rcParams['figure.subplot.left']=0.15
-mpl.rcParams['figure.subplot.right']=0.85
+mpl.rcParams['figure.subplot.left']=0.1
+mpl.rcParams['figure.subplot.right']=0.9
 
 
 d=[] 
@@ -50,12 +51,13 @@ for f in sys.argv[1:]:
     d.append(np.loadtxt(f).transpose())
 
 
-fig=plt.figure(figsize=(4,3),dpi=600)
+fig=plt.figure(figsize=(8,3),dpi=600)
 ax_c = fig.add_subplot(111)
 
 
 i=0
 for data in d:
+#    pCycle(ax_c,data,labels[i],colors[i])
     pChCap(ax_c,data,labels[i],colors[i])
     pDisCap(ax_c,data,labels[i],colors[i])
     i=i+1
@@ -67,7 +69,7 @@ ax_c.set_xlim(0,1.1*np.amax(d[0][0]))
 ax_c.set_ylim(0,140)
 ax_c.set_ylabel('Specific capacity ($mAh\cdot g^{-1}$)')
 ax_c.set_xlabel('Cycle number')
-plt.yticks(np.linspace(20,160,8))
+plt.yticks(np.linspace(20,140,7))
 
 ax_c.legend(loc=3,framealpha=0.4)
 
@@ -85,7 +87,7 @@ ax_e.set_ylim(70,105)
 plt.yticks(np.linspace(75,105,7))
 ax_e.set_ylabel('Coulombic efficiency (%)')
 
-ax_e.set_xlim(-2,1.1*np.amax(d[0][0]))
+ax_e.set_xlim(-20,1.1*np.amax(d[0][0]))
 
 
 plt.savefig(f+'.pdf')

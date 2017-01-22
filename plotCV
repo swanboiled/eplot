@@ -3,7 +3,7 @@ import numpy as np
 import sys
 import matplotlib.pyplot as plt
 from matplotlib import style
-     
+import matplotlib as mpl     
 def getFromFile(f):
     f = open(f)
     try:
@@ -28,35 +28,34 @@ def save(a,f):
         
 
 #Colors
-color_sequence = ['black','#660033','#336633','#CC9966','#993333']
+color_sequence = ['g','b','k','darkviolet','c','darkred']
+
 linestyle=['-','--']
 labels = ('1st', '2nd', '3rd', '4th', '5th')
 # plot
+
+plt.style.use('z')
+mpl.rcParams['figure.subplot.left'] =0.15
+mpl.rcParams['figure.subplot.right'] =0.95
 
 f = sys.argv[1]
 data=getFromFile(f)    
 i=0
 V=[]
 I=[]
-plt.figure(figsize=(5,4))
+plt.figure()
 for d in data:
     V.append(d[0])
     I.append(1000*d[1]/((6.21-3.56)*0.95))
     if d[0]==2.5:
         ds=[V,I]
         save(ds,str(i))
-        if i==0:
-            ls=linestyle[0]
-        else:
-            ls=linestyle[1]
-        plt.plot(V,I,label =labels[i], color=color_sequence[i],linestyle=ls,linewidth=1)
+        plt.plot(V,I,label =labels[i], color=color_sequence[i],linestyle='-',linewidth=2)
         V=[]
         I=[]
         i+=1
-style.use('ggplot')
 plt.ylabel('Current (A/g)' )
 plt.xlabel('Voltage (V)')
 plt.legend()
 plt.xlim([-0.5,3.0])
 plt.savefig(r'CV.pdf')
-plt.show()

@@ -14,7 +14,7 @@ def getFromFile(f):
 	d[n-1].append(l)
     return d 
 def pRaman(ax,d,l,c):
-    line,=ax.plot(d[0],d[1],label =l, color=c,ls='-')
+    line,=ax.plot(d[0],d[1],label =l, color=c,ls='-',lw=1)
     return line
 def pEff(ax,d,l,c):
     line,=ax.plot(d[0],d[3],label =l, color=c,marker='o')
@@ -33,7 +33,7 @@ def save(a,f):
 
 #Colors
 colors = ['g','b','k','darkviolet','c']
-labels = ['PHC1000', 'PHC1200', 'PHC1400', 'PHC1600', '5th']
+labels = ['MAC1000', 'MAC1200', 'MAC1400', 'MAC1600', '5th']
 # plot
 plt.style.use('z') 
 d=[] 
@@ -54,8 +54,8 @@ for data in d:
 
 
 ax_c.set_xlim(800,1.1*np.amax(d[0][0]))
-ax_c.set_ylim(0,15000)
-plt.yticks(np.linspace(3000,15000,5))
+ax_c.set_ylim(0,8000)
+plt.yticks(np.linspace(2000,8000,4))
 plt.xticks(np.linspace(800,2200,5))
 ax_c.tick_params(labelleft='off')
 

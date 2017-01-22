@@ -29,7 +29,7 @@ def save(a,f):
 #Colors
 color_sequence = ['g','b','k','darkviolet','darkviolet','c','darkred']
 linestyle=['-','--']
-labels = ('1st', '100th', '200th', '200th','800th')
+labels = ('1st', '2nd', '50th', '200th','800th')
 # plot
 
 plt.style.use('z')
@@ -45,7 +45,7 @@ for pdata in data:
     lines.append(pCycle(pd,labels[i],color_sequence[i],1))
     n+=1
     i=int(n/2)
-plt.ylim(1.5,4.2)
+plt.ylim(0,4.2)
 plt.xlim(0,1.1*np.amax(np.loadtxt(f)[:,1]))
 plt.ylabel('Voltage (V)')
 plt.xlabel('Specific capacity ($mAh\cdot g^{-1}$)')
