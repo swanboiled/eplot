@@ -29,6 +29,16 @@ def save(a,f):
         f.write('\n')
     f.close()
         
+def vecMinSca(v,s):
+    o=[]
+    for ve in v:
+        o.append(ve-s)
+    return o
+def reverse(vec):
+    o=[]
+    for v in vec:
+        o.append(vec[-1]-v)
+    return o
 
 #Colors
 color_sequence = ['g','b','k','darkviolet','c','darkred']
@@ -41,23 +51,22 @@ labels = ('2C', '6C', '100th', '400th','800th')
 plt.style.use('z')
 mpl.rcParams['figure.subplot.left'] =0.15
 mpl.rcParams['figure.subplot.right'] =0.95 
-f = sys.argv[1]
-dA=np.loadtxt('1400p')
-dP=np.loadtxt('1600p')
+dA=np.loadtxt('1400c')
+dP=np.loadtxt('1600c')
 
 
 ax=plt.subplot(111)
 pd=np.array(dP).transpose()
 po=np.array(dA).transpose()
 
-ax.plot(po[0],po[1],label ='PHC-1400', color='m',marker=('o'))
-ax.plot(pd[0],pd[1],label ='PHC-1600', color='g',marker=('o'))
+ax.plot(po[0],reverse(po[1]),label ='PHC-1400', color='m',marker=('o'))
+ax.plot(pd[0],reverse(pd[1]),label ='PHC-1600', color='g',marker=('o'))
 
 
 
 #ax.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
 ax.set_xscale('log')
-ax.set_yscale('log')
+#ax.set_yscale('log')
 ax.invert_xaxis()
 
 
@@ -67,4 +76,4 @@ plt.xlabel('Pore width ($\AA$)')
 
 
 plt.legend(loc=6,framealpha=0.4)
-plt.savefig(f+'csa.pdf')
+plt.savefig('csa.pdf')

@@ -13,6 +13,7 @@ def getFromFile(f):
        	    n+=1	
 	    d.append([])
 	d[n-1].append(l)
+    print n
     return d 
 def pCycle(d,l,c,lw):
     line,=plt.plot(d[1],d[0],label =l, color=c,linestyle='-')
@@ -29,9 +30,9 @@ def save(a,f):
         
 
 #Colors
-color_sequence = ['g','b','k','darkviolet','c','darkred']
+color_sequence = ['k','b','k','darkviolet','c','darkred']
 linestyle=['-','--']
-labels = ('2C', '6C', '100th', '400th','800th')
+labels = ('2C profile', '6C', '100th', '400th','800th')
 # plot
 plt.style.use('z')
 mpl.rcParams['figure.subplot.left'] =0.15
@@ -53,11 +54,11 @@ plt.xlim(0,1.1*np.amax(np.loadtxt(f)[:,1]))
 plt.ylabel('Voltage (V)')
 plt.xlabel('Specific capacity ($mAh\cdot g^{-1}$)')
 #plt.grid(True)
-plt.legend(lines[1::2],labels[:i],loc=2,framealpha=0.4)
+#plt.legend(lines[1::2],loc=2,framealpha=0.4)
 
 
 
-sub_axes = plt.axes([0.26, 0.41, 0.4, 0.3])
+sub_axes = plt.axes([0.3, 0.5, 0.38, 0.3])
 i=0
 n=0
 lines=[]
@@ -66,10 +67,10 @@ for pdata in data:
     sub_axes.plot(pd[1],pd[0],label =labels[n], color=color_sequence[i],linestyle='-')
     n+=1
     i=int(n/2)
-plt.ylim(-0.2,0)
+plt.ylim(-0.1,0.1)
 plt.xlim(0,300)
 plt.xticks(np.linspace(0,300,3))
-plt.yticks(np.linspace(-0.2,0,3))
+plt.yticks(np.linspace(-0.1,0.1,3))
 
 plt.setp(sub_axes)
 plt.savefig(f+'.pdf')

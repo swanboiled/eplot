@@ -52,8 +52,8 @@ plt.plot(pd[0],pd[1],label ='Volume adsorbed', color='g',marker=('o'))
 
 
 plt.xlim(0,1.1*np.amax(pd[0]))
-#plt.ylim(0,1.1*np.amax(pd[1]))
-plt.ylim(0,1.8*np.amax(pd[1]))
+plt.ylim(0,1.1*np.amax(pd[1]))
+#plt.ylim(0,1.8*np.amax(pd[1]))
 plt.ylabel('Volume adsorbed ($cm^3\cdot g^{-1}$)')
 plt.xlabel('Relative pressure ($P/P_o$)')
 
@@ -61,17 +61,17 @@ plt.legend(loc=2,framealpha=0.4)
 
 
 
-sub_axes = plt.axes([0.38, 0.5, 0.45, 0.25])
-#sub_axes = plt.axes([0.45, 0.30, 0.45, 0.25])
+#sub_axes = plt.axes([0.38, 0.5, 0.45, 0.25])
+sub_axes = plt.axes([0.45, 0.30, 0.45, 0.25])
 sub_axes.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
 sub_axes.set_xscale('log')
 pd=np.array(dP).transpose()
-sub_axes.plot(pd[0],pd[1],label ='CSA', color='b',marker=('o'),lw=1,markersize=2)
+sub_axes.plot(pd[0],pd[1],label ='DPV', color='b',marker=('o'),lw=1,markersize=2)
 
-plt.ylim(0,1.1*np.amax(pd[1]))
-plt.yticks(np.linspace(0,1.1*np.amax(pd[1]),5))
+plt.ylim(0,0.24)
+plt.yticks(np.linspace(0,0.24,5))
 
-plt.ylabel('CSA ($cm^2\cdot g^{-1}$)')
+plt.ylabel('DPV ($cm^2\cdot g^{-1}$)')
 plt.xlabel('Pore width ($\AA$)')
 
 

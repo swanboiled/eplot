@@ -15,11 +15,11 @@ def getFromFile(f):
 	d[n-1].append(l)
     return d 
 def pXRD(ax,i,d,l,c,p,r):
-    line,=ax.plot(d[1],vecMinSca(normalize(d[2]),-1*i),label =l, color=c,ls='-',lw=2)
+    line,=ax.plot(d[0],vecMinSca(normalize(d[1]),-1*i),label =l, color=c,ls='-',lw=2)
     ax.text(50,i+0.4,l,color=c)
     ax.vlines(p,i,i+1.2,color=c,linestyles='--',lw=1)
     ax.text(p-9,i+0.2,'$'+str(p)+'^{\circ}$',color=c)
-    ax.text(72,i+0.3,'R='+str(r),color=c)
+#    ax.text(72,i+0.3,'R='+str(r),color=c)
     return line
 
 def save(a,f):
@@ -46,8 +46,8 @@ def vecMinSca(v,s):
 
 #Colors
 colors = ['g','b','k','darkviolet','c']
-labels = ['PHC1000', 'PHC1200', 'PHC1400', 'PHC1600', '5th']
-ps=[21.34,21.64,22.54,22.76]
+labels = ['MAC1000', 'MAC1200', 'MAC1400', 'MAC1600', '5th']
+ps=[21.37,21.91,22.64,22.80]
 R=[1.975,2.013,2.176,2.304]
 # plot
 plt.style.use('z') 
@@ -62,7 +62,8 @@ ax_c = fig.add_subplot(111)
 
 i=0
 for data in d:
-    pXRD(ax_c,i,data,labels[i],colors[i],ps[i],R[i])
+    
+    pXRD(ax_c,i,[data[0],data[1]+data[2]+data[3]+data[4]],labels[i],colors[i],ps[i],R[i])
     i=i+1
 
 ax_c.vlines(43.72,0,4.2,color='k',linestyles='--',lw=1)
@@ -70,7 +71,7 @@ ax_c.text(43.72-9,1.8,'$43.72^{\circ}$')
  
 
 
-ax_c.set_xlim(5,1.1*np.amax(d[0][1]))
+ax_c.set_xlim(5,1.1*np.amax(d[0][0]))
 ax_c.set_ylim(0,4.2)
 ax_c.set_ylabel('Intensity')
 ax_c.set_xlabel('$2 \Theta (^{\circ})$')

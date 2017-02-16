@@ -64,10 +64,11 @@ for data in d:
 
 
 ax_c.set_xlim(0,1.1*np.amax(d[0][0]))
-ax_c.set_ylim(0,140)
 ax_c.set_ylabel('Specific capacity ($mAh\cdot g^{-1}$)')
 ax_c.set_xlabel('Cycle number')
-plt.yticks(np.linspace(20,160,8))
+
+ax_c.set_ylim(0,150)
+plt.yticks(np.linspace(0,150,4))
 
 ax_c.legend(loc=3,framealpha=0.4)
 
@@ -82,7 +83,7 @@ for data in d:
 
 ax_e.legend(loc=4,framealpha=0.4)
 ax_e.set_ylim(70,105)
-plt.yticks(np.linspace(75,105,7))
+plt.yticks(np.linspace(60,105,10))
 ax_e.set_ylabel('Coulombic efficiency (%)')
 
 ax_e.set_xlim(-2,1.1*np.amax(d[0][0]))
