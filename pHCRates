@@ -4,7 +4,7 @@ import sys
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 def pCycle(a,d,l,c):
-    line,=a.plot(d[0],d[1],label =l, color=c,marker='o')
+    line,=a.plot(d[0],d[1],label =l, color=c,marker='.',lw=1)
     return line
 def save(a,f):
     d=np.transpose(a)

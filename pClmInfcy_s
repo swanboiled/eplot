@@ -35,7 +35,9 @@ def CIC(E):
         C=C+e[1]-e[2]
         f.append(100*C/Q1)
         r.append(100*(Q1-e[2])/Q1)
-    return f,r
+
+    return [np.array(f), np.array(r)]
+
 def splitIe(data):
     p=[]
     n=[]
@@ -58,19 +60,20 @@ labels = ('1st', '2nd', '3rd', '4th', '5th')
 plt.style.use('z')
 f = sys.argv[1]
 data=np.loadtxt(f).transpose()
-p,n=splitIe(np.loadtxt(f))
-ps=np.array(p).transpose()
-ns=np.array(n).transpose()
-
-
+cic=CIC(np.loadtxt(f))
+cof=np.polyfit(data[0],cic[0]-cic[1],1)
+p=np.poly1d(cof)
+print p
 fig=plt.figure()
 ax_e = fig.add_subplot(111)
-ax_e.plot(data[0],CIC(np.loadtxt(f))[0],'b-',label ='CIC')
-ax_e.plot(data[0],CIC(np.loadtxt(f))[1],'g-',label ='CFF')
+ax_e.plot(data[0],cic[0],'b-',label ='CIC')
+ax_e.plot(data[0],cic[1],'g-',label ='CFF')
+ax_e.plot(data[0],cic[0]-cic[1],'m.',label ='RCIC')
+ax_e.plot(data[0],p(data[0]),'k--',label ='Fitted_RCIC')
 ax_e.legend(loc=2,framealpha=0.4)
 ax_e.set_ylim(0,200)
 ax_e.set_ylabel('Capacity remaining (%)')
-
+ax_e.text(600,60,'$Slope=0.094\%/cycle$')
 ax_e.set_xlim(-50,1.1*np.amax(data[0]))
 plt.xlabel('Cycle number')
 

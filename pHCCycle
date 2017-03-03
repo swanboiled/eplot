@@ -57,10 +57,9 @@ for data in d:
 
 
 ax_c.set_xlim(0,1.1*np.amax(d[0][0]))
-ax_c.set_ylim(0,400)
 ax_c.set_ylabel('Specific capacity ($mAh\cdot g^{-1}$)')
 ax_c.set_xlabel('Cycle number')
-plt.yticks(np.linspace(50,400,8))
+plt.yticks(np.linspace(50,650,7))
 
 
 ax_e = ax_c.twinx()
@@ -72,12 +71,11 @@ for data in d:
     i=i+1
 
 
-ax_e.legend(loc=4,framealpha=0.4)
-ax_e.set_ylim(80,120)
-plt.yticks(np.linspace(85,120,8))
+ax_e.legend(loc='upper center',bbox_to_anchor=(0.8,0.83),framealpha=0.4)
+plt.yticks(np.linspace(0,110,12))
 ax_e.set_ylabel('Coulombic efficiency (%)')
 
-ax_e.set_xlim(0,35)
+ax_e.set_xlim(0,70)
 
 
 plt.savefig(f+'.pdf')

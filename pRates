@@ -4,8 +4,8 @@ import sys
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 def pCycle(a,d,l,c):
-    line,=a.plot(d[0],d[1],label ='Charge capacity', color='b',marker='o')
-    line,=a.plot(d[0],d[2],label ='Discharge capacity', color='darkviolet',marker='o')
+    line,=a.plot(d[0],d[1],label ='Charge capacity', color='m' ,marker='o')
+    line,=a.plot(d[0],d[2],label ='Discharge capacity', color='g' ,marker='o')
     return line
 def save(a,f):
     d=np.transpose(a)
@@ -25,7 +25,7 @@ def vecMinSca(v,s):
 #Colors
 colors = ['g','b','k','darkviolet','c']
 labels = ['PHC1000', 'PHC1200', 'PHC1400', 'PHC1600', '5th']
-rates=['1C','2C','6C','15C','30C']
+rates=['C/10','C/5','C/2','1C','2C']
 # plot
 plt.style.use('z')
 d=[]
@@ -35,8 +35,8 @@ for f in sys.argv[1:]:
 fig=plt.figure()
 ax = fig.add_subplot(111)
 
-ax.set_xlim(0,40)
-ax.set_ylim(0,150)
+ax.set_xlim(0,50)
+ax.set_ylim(0,450)
 ax.xaxis.set_major_locator(ticker.IndexLocator(5,0))
 ax.set_ylabel('Specific capacity ($mAh\cdot g^{-1}$)')
 ax.set_xlabel('Cycle number')
@@ -49,12 +49,12 @@ for data in d:
     i=i+1
 i=0
 for r in rates:
-    ax.text(4+5*i,110-10*i,r,ha='center')
+    ax.text(19+5*i,320-10*i,r,ha='center')
     i=i+1
 
-ax.text(33,85,'1C',ha='center')
+#ax.text(37,150,'1C',ha='center')
 ax.legend(loc=3,framealpha=0.4)
 
-
+plt.tight_layout()
 
 plt.savefig(f+'.pdf')

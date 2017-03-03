@@ -15,7 +15,7 @@ def getFromFile(f):
 	d[n-1].append(l)
     return d 
 def pCycle(d,l,c,lw):
-    line,=plt.plot(d[1],d[0],label =l, color=c,linestyle='-')
+    line,=plt.plot(d[1],d[0],label =l, color=c,linestyle='-',lw=1)
     return line
 def save(a,f):
     d=np.transpose(a)
@@ -31,27 +31,47 @@ def save(a,f):
 #Colors
 color_sequence = ['g','b','k','darkviolet','c','darkred']
 linestyle=['-','--']
-labels = ('1st', '2nd', '100th', '400th','800th')
+labels = ('Mac1200', 'Mac1300', 'Mac1400', 'Mac1500','Mac1600')
 plt.style.use('z')
 #mpl.rcParams['font.size']='16'
 # plot
 
-f = sys.argv[1]
-data=getFromFile(f)
+fs = sys.argv[1:]
+data=[]
+for f in fs:
+    data.append(getFromFile(f))
 plt.figure()
 ls='-'
 i=0
 n=0
 lines=[]
 for pdata in data:
-    pd=np.array(pdata).transpose()
+    pd=np.array(pdata[0]).transpose()
     lines.append(pCycle(pd,labels[i],color_sequence[i],1))
     n+=1
-    i=int(n/2)
-plt.ylim(0,3.0)
+    i+=1
+plt.ylim(-0.5,2.5)
 plt.xlim(0,350)
 plt.ylabel('Voltage (V)')
 plt.xlabel('Specific capacity ($mAh\cdot g^{-1}$)')
-plt.legend(lines[1::2],labels[:i],loc=2,framealpha=0.4,frameon=None)
+plt.legend(lines,labels[:i],loc=2,framealpha=0.4,frameon=None)
+
+sub_axes = plt.axes([0.53, 0.38, 0.38, 0.3])
+i=0
+n=0
+for pdata in data:
+    pd=np.array(pdata[0]).transpose()
+    sub_axes.plot(pd[1],pd[0],label =labels[n], color=color_sequence[i],linestyle='-',lw=1)
+    n+=1
+    i+=1
+plt.hlines(0,0,350,linestyle='--',lw=1)
+plt.ylim(-0.05,0.05)
+plt.xlim(150,350)
+#plt.xticks([50,300])
+
+plt.yticks([-0.05,0])
+
+plt.setp(sub_axes)
+
 plt.tight_layout()
-plt.savefig(f+'.pdf')
+plt.savefig('dep.pdf')

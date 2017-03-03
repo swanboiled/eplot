@@ -29,51 +29,38 @@ def save(a,f):
         f.write('\n')
     f.close()
         
-def vecMinSca(v,s):
-    o=[]
-    for ve in v:
-        o.append(ve-s)
-    return o
-def reverse(vec):
-    o=[]
-    for v in vec:
-        o.append(vec[-1]-v)
-    return o
 
 #Colors
 cs = ['g','b','k','darkviolet','c','darkred']
 linestyle=['-','--']
-labels = ('MAC1000', 'MAC1200', 'MAC1400', 'MAC1600','800th') 
+labels = ('MAC1000', 'MAC1200', 'MAC1400', 'MAC1600','800th')
+
 
 
 # plot
 plt.style.use('z')
 mpl.rcParams['figure.subplot.left'] =0.15
 mpl.rcParams['figure.subplot.right'] =0.95 
+fs = sys.argv[1:]
 dA=[]
-for f in sys.argv[1:]:
-    dA.append(np.loadtxt(f,delimiter=',',dtype=float,skiprows= 1 ))
+for f in fs:
+    dA.append(np.loadtxt(f, skiprows= 1 ,delimiter = "," , usecols=(0,1,2) , dtype=float))
 
-
-
-ax=plt.subplot(111)
 i=0
 for d in dA:
     pd=np.array(d).transpose()
-    ax.plot(pd[0],reverse(pd[2]),label =labels[i], color=cs[i],marker=('.'),lw=1)
+    plt.plot(pd[0]/pd[1],pd[2],label =labels[i], color=cs[i],marker=('o'))
     i+=1
 
 
-#ax.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1e'))
-ax.set_xscale('log')
-ax.set_yscale('log')
-ax.invert_xaxis()
+#plt.xlim(0,1.1*np.amax(pd[0]))
+#plt.ylim(-1,1.3*np.amax(pd[1]))
+plt.ylim(0,20)
+#plt.yscale('log')
+plt.ylabel('Volume adsorbed ($cm^3\cdot g^{-1}$)')
+plt.xlabel('Relative pressure ($P/P_o$)')
+
+plt.legend(loc=5,framealpha=0.4)
 
 
-
-plt.ylabel('CSA ($m^{2}/g$)')
-plt.xlabel('Pore width (nm)')
-
-
-plt.legend(loc=2,framealpha=0.4)
-plt.savefig('csa.pdf')
+plt.savefig('isothermo.pdf')

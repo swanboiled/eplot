@@ -87,6 +87,6 @@ plt.yticks(np.linspace(60,105,10))
 ax_e.set_ylabel('Coulombic efficiency (%)')
 
 ax_e.set_xlim(-2,1.1*np.amax(d[0][0]))
-
+plt.tight_layout()
 
 plt.savefig(f+'.pdf')

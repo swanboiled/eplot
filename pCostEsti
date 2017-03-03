@@ -108,7 +108,7 @@ plt.yticks(np.arange(0, 200, 50))
 
 plt.ylabel('Cost estimated ($ \$\cdot kWh^{-1}$)')
 #plt.xlabel('Pore width ($\AA$)')
-fig.tight_layout()
+plt.tight_layout()
 
 plt.legend(loc=2,framealpha=0.4)
 plt.savefig('cost.pdf')
